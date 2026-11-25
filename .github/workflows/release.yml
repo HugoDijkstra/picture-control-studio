@@ -108,9 +108,14 @@ jobs:
         continue-on-error: true
         run: |
           cp recipes.toml /tmp/recipes.toml
-          PCS_RECIPES=/tmp/recipes.toml PCS_SNAPSHOT=$PWD/smoke-macos.png PCS_LOG=$PWD/smoke-macos.log G_MESSAGES_DEBUG=all \
-            perl -e 'alarm 90; exec @ARGV' "dist/Picture Control Studio.app/Contents/MacOS/PictureControlStudio" || echo "app exit code $?"
-          tail -60 smoke-macos.log || true
+          export PCS_RECIPES=/tmp/recipes.toml PCS_SNAPSHOT=$PWD/smoke-macos.png PCS_LOG=$PWD/smoke-macos.log
+          APP="dist/Picture Control Studio.app/Contents/MacOS/PictureControlStudio"
+          ls -la "$APP"
+          set +e
+          "$APP" & PID=$!
+          for i in $(seq 90); do sleep 1; kill -0 $PID 2>/dev/null || break; done
+          kill $PID 2>/dev/null; wait $PID; echo "app exit code $?"
+          tail -60 smoke-macos.log 2>/dev/null || echo "(no log written)"
           test -s smoke-macos.png
       - name: Package
         run: |
