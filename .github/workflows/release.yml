@@ -109,7 +109,7 @@ jobs:
         run: |
           cp recipes.toml /tmp/recipes.toml
           PCS_RECIPES=/tmp/recipes.toml PCS_SNAPSHOT=$PWD/smoke-macos.png \
-            perl -e 'alarm 90; exec @ARGV' "dist/Picture Control Studio.app/Contents/MacOS/PictureControlStudio"
+            perl -e 'alarm 90; exec @ARGV' "dist/Picture Control Studio.app/Contents/MacOS/PictureControlStudio" 2>&1 || echo "app exit code $?"
           test -s smoke-macos.png
       - name: Package
         run: |

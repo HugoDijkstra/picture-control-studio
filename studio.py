@@ -2012,6 +2012,7 @@ class App(Adw.Application):
         win.present()
         if os.environ.get("PCS_SNAPSHOT") and not getattr(self, "_snap", False):
             self._snap = True
+            print("snapshot: window activated", flush=True)
             GLib.timeout_add(int(os.environ.get("PCS_SNAPSHOT_DELAY", "3000")), self._dev_snapshot, win)
         return win
 
@@ -2045,6 +2046,11 @@ class App(Adw.Application):
                 node = snapshot.to_node()
                 tex = win.get_native().get_renderer().render_texture(node, Graphene.Rect().init(0, 0, w, h))
                 tex.save_to_png(os.environ["PCS_SNAPSHOT"])
+                print(f"snapshot: saved {w}x{h} to {os.environ['PCS_SNAPSHOT']}", flush=True)
+            except Exception as e:
+                import traceback
+                print("snapshot: failed:", repr(e), flush=True)
+                traceback.print_exc()
             finally:
                 self.quit()
             return False
