@@ -2059,6 +2059,15 @@ class App(Adw.Application):
 
 
 if __name__ == "__main__":
+    if os.environ.get("PCS_LOG"):  # diagnostics: send stdout/stderr (incl. GTK messages) to a file
+        _log = open(os.environ["PCS_LOG"], "a", buffering=1)
+        os.dup2(_log.fileno(), 1)
+        os.dup2(_log.fileno(), 2)
+        sys.stdout = sys.stderr = _log
+        print("studio: starting", sys.platform, sys.argv, flush=True)
     GLib.set_prgname(APP_ID)
     GLib.set_application_name("Picture Control Studio")
-    sys.exit(App().run(sys.argv))
+    rc = App().run(sys.argv)
+    if os.environ.get("PCS_LOG"):
+        print("studio: exit", rc, flush=True)
+    sys.exit(rc)
