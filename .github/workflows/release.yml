@@ -109,7 +109,7 @@ jobs:
         run: |
           cp recipes.toml /tmp/recipes.toml
           PCS_RECIPES=/tmp/recipes.toml PCS_SNAPSHOT=$PWD/smoke-macos.png \
-            timeout 90 "dist/Picture Control Studio.app/Contents/MacOS/PictureControlStudio"
+            perl -e 'alarm 90; exec @ARGV' "dist/Picture Control Studio.app/Contents/MacOS/PictureControlStudio"
           test -s smoke-macos.png
       - name: Package
         run: |
