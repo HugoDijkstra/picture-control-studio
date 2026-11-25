@@ -1,0 +1,142 @@
+name: Build & release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GTK 4, libadwaita, LibRaw
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adw-1 libgtk-4-bin \
+            python3-numpy python3-pil python3-cairo libraw-bin
+          which dcraw_emu
+      - name: Build
+        run: |
+          python3 -m venv --system-site-packages venv
+          venv/bin/pip install pyinstaller
+          venv/bin/pyinstaller --noconfirm packaging/picture-control-studio.spec
+      - name: Smoke test (headless)
+        run: |
+          gtk4-broadwayd :5 & sleep 1
+          cp recipes.toml /tmp/recipes.toml
+          GDK_BACKEND=broadway BROADWAY_DISPLAY=:5 PCS_RECIPES=/tmp/recipes.toml PCS_SNAPSHOT=smoke-linux.png \
+            timeout 60 dist/PictureControlStudio/PictureControlStudio
+          test -s smoke-linux.png
+      - name: Package
+        run: |
+          cp ncp.py recipes.toml README.md dist/PictureControlStudio/
+          tar -C dist -czf PictureControlStudio-linux-x86_64.tar.gz PictureControlStudio
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: |
+            PictureControlStudio-linux-x86_64.tar.gz
+            smoke-linux.png
+
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            zip
+            mingw-w64-ucrt-x86_64-python
+            mingw-w64-ucrt-x86_64-python-pip
+            mingw-w64-ucrt-x86_64-python-gobject
+            mingw-w64-ucrt-x86_64-python-cairo
+            mingw-w64-ucrt-x86_64-python-numpy
+            mingw-w64-ucrt-x86_64-python-pillow
+            mingw-w64-ucrt-x86_64-gtk4
+            mingw-w64-ucrt-x86_64-libadwaita
+            mingw-w64-ucrt-x86_64-libraw
+            mingw-w64-ucrt-x86_64-pyinstaller
+      - name: Check tools
+        run: |
+          python --version
+          which dcraw_emu || echo "dcraw_emu not in libraw package"
+      - name: Build
+        run: pyinstaller --noconfirm packaging/picture-control-studio.spec
+      - name: Smoke test
+        continue-on-error: true
+        run: |
+          cp recipes.toml recipes-smoke.toml
+          PCS_RECIPES=recipes-smoke.toml PCS_SNAPSHOT=smoke-windows.png timeout 90 dist/PictureControlStudio/PictureControlStudio.exe
+          test -s smoke-windows.png
+      - name: Package
+        run: |
+          cp ncp.py recipes.toml README.md dist/PictureControlStudio/
+          cd dist && zip -qr ../PictureControlStudio-windows-x86_64.zip PictureControlStudio
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: |
+            PictureControlStudio-windows-x86_64.zip
+            smoke-windows.png
+          if-no-files-found: warn
+
+  macos:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GTK 4, libadwaita, LibRaw
+        run: |
+          brew install gtk4 libadwaita pygobject3 py3cairo numpy pillow libraw adwaita-icon-theme
+          which dcraw_emu || echo "dcraw_emu not in libraw formula"
+      - name: Build
+        run: |
+          PY="$(ls -1 $(brew --prefix)/bin/python3.1[0-9] | sort -V | tail -1)"
+          echo "using $PY"; "$PY" -c "import gi; gi.require_version('Adw','1'); from gi.repository import Adw; print('Adw ok')"
+          "$PY" -m venv --system-site-packages venv
+          venv/bin/pip install pyinstaller
+          venv/bin/pyinstaller --noconfirm packaging/picture-control-studio.spec
+      - name: Smoke test
+        continue-on-error: true
+        run: |
+          cp recipes.toml /tmp/recipes.toml
+          PCS_RECIPES=/tmp/recipes.toml PCS_SNAPSHOT=$PWD/smoke-macos.png \
+            timeout 90 "dist/Picture Control Studio.app/Contents/MacOS/PictureControlStudio"
+          test -s smoke-macos.png
+      - name: Package
+        run: |
+          cp ncp.py recipes.toml README.md dist/
+          ditto -c -k --keepParent "dist/Picture Control Studio.app" PictureControlStudio-macos-arm64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: |
+            PictureControlStudio-macos-arm64.zip
+            smoke-macos.png
+          if-no-files-found: warn
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [linux, windows, macos]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            artifacts/linux/PictureControlStudio-linux-x86_64.tar.gz
+            artifacts/windows/PictureControlStudio-windows-x86_64.zip
+            artifacts/macos/PictureControlStudio-macos-arm64.zip
+            ncp.py

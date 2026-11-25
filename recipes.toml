@@ -1,0 +1,885 @@
+# Nikon Custom Picture Control recipes. Build with:  ncp   (or edit in Picture Control Studio)
+#
+# Fields:
+#   slot        1-99  -> file PICCONxx.NCP
+#   name        max 19 chars, shown on the camera
+#   notes       free text for yourself (not written to the file)
+#   install     true/false: include when installing to the SD card
+#   base        standard | neutral | vivid | monochrome | portrait | landscape
+#   sharpening  0-9 or "auto"
+#   saturation  -3..3 or "auto"   (colour bases only)
+#   hue         -3..3             (colour bases only; + pushes reds toward yellow)
+#   filter      off | yellow | orange | red | green          (monochrome only)
+#   toning      bw | sepia | cyanotype | red | yellow | green | blue-green |
+#               blue | purple-blue | red-purple              (monochrome only)
+#   toning_strength 1-7 (when toning isn't bw)
+#   curve       2-20 [input, output] points, 0-255, x increasing
+#   gamma       0.10-5.00 (default 1.00): bends the whole curve; >1 brightens the mid-tones
+#   levels/lut  only on imported files: their exact tone table, used until the curve or gamma is edited
+#
+# White balance and Clarity can't be stored in .NCP; set them on the camera. The app keeps them as:
+#   wb          auto | daylight | cloudy | shade | incandescent | fluorescent | flash | kelvin
+#   wb_kelvin   colour temperature when wb = "kelvin"
+#   wb_ab       fine-tune, + = A (amber), - = B (blue), -6..6
+#   wb_gm       fine-tune, + = G (green), - = M (magenta), -6..6
+#   clarity     -5..5
+
+[[recipe]]
+slot = 1
+name = "FJ Classic Chrome"
+notes = "WB auto, fine-tune A1 M0.5; Clarity +1"
+install = true
+base = "neutral"
+sharpening = 3
+saturation = -2
+hue = 0
+wb = "auto"
+wb_ab = 1
+wb_gm = -0.5
+clarity = 1
+curve = [[0, 0], [64, 52], [128, 128], [192, 204], [255, 255]]
+
+[[recipe]]
+slot = 2
+name = "FJ Classic Neg"
+notes = "WB daylight, A2 G0.5; Clarity +1"
+install = true
+base = "neutral"
+sharpening = 3
+saturation = -1
+hue = -1
+wb = "daylight"
+wb_ab = 2
+wb_gm = 0.5
+clarity = 1
+curve = [[0, 14], [40, 34], [80, 72], [128, 128], [176, 186], [216, 220], [255, 238]]
+
+[[recipe]]
+slot = 3
+name = "FJ Nostalgic Neg"
+notes = "WB daylight, A3 M0.5"
+install = true
+base = "neutral"
+sharpening = 3
+saturation = -1
+hue = 1
+wb = "daylight"
+wb_ab = 3
+wb_gm = -0.5
+clarity = 0
+curve = [[0, 16], [48, 52], [96, 102], [128, 134], [192, 196], [255, 244]]
+
+[[recipe]]
+slot = 4
+name = "FJ Provia"
+notes = "WB auto"
+install = true
+base = "standard"
+sharpening = 4
+saturation = 0
+hue = 0
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 0
+curve = [[0, 0], [64, 60], [128, 128], [192, 196], [255, 255]]
+
+[[recipe]]
+slot = 5
+name = "FJ Velvia"
+notes = "WB daylight; Clarity +1"
+install = true
+base = "vivid"
+sharpening = 4
+saturation = 1
+hue = 0
+wb = "daylight"
+wb_ab = 0
+wb_gm = 0
+clarity = 1
+curve = [[0, 0], [48, 38], [128, 128], [200, 210], [255, 255]]
+
+[[recipe]]
+slot = 6
+name = "FJ Astia"
+notes = "WB auto"
+install = true
+base = "standard"
+sharpening = 3
+saturation = 1
+hue = 0
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 0
+curve = [[0, 2], [64, 64], [128, 130], [192, 194], [255, 252]]
+
+[[recipe]]
+slot = 7
+name = "FJ Pro Neg Std"
+notes = "WB auto, A1"
+install = true
+base = "neutral"
+sharpening = 3
+saturation = -1
+hue = 0
+wb = "auto"
+wb_ab = 1
+wb_gm = 0
+clarity = 0
+curve = [[0, 6], [64, 68], [128, 130], [192, 190], [255, 248]]
+
+[[recipe]]
+slot = 8
+name = "FJ Eterna"
+notes = "WB auto, B1"
+install = true
+base = "neutral"
+sharpening = 2
+saturation = -2
+hue = 0
+wb = "auto"
+wb_ab = -1
+wb_gm = 0
+clarity = 0
+curve = [[0, 18], [64, 72], [128, 128], [192, 182], [255, 236]]
+
+[[recipe]]
+slot = 9
+name = "FJ Acros"
+notes = "Clarity +2"
+install = true
+base = "monochrome"
+sharpening = 5
+filter = "yellow"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 2
+curve = [[0, 0], [32, 20], [64, 54], [128, 130], [192, 202], [255, 255]]
+
+[[recipe]]
+slot = 10
+name = "Kodachrome 64"
+notes = "Deep reds, dense shadows. WB daylight, A3 M1; Clarity +1"
+install = true
+base = "standard"
+sharpening = 4
+saturation = 1
+hue = -1
+wb = "daylight"
+wb_ab = 3
+wb_gm = -1
+clarity = 1
+curve = [[0, 0], [40, 28], [96, 88], [160, 168], [216, 226], [255, 250]]
+
+[[recipe]]
+slot = 11
+name = "Portra 400"
+notes = "Soft, warm skin, gentle highlights. WB auto, A2 M1; Clarity -1"
+install = false
+base = "neutral"
+sharpening = 2
+saturation = 0
+hue = 1
+wb = "auto"
+wb_ab = 2
+wb_gm = -1
+clarity = -1
+curve = [[0, 0], [64, 52], [128, 128], [192, 204], [255, 255]]
+
+[[recipe]]
+slot = 12
+name = "Kodak Gold 200"
+notes = "Golden, nostalgic snapshots. WB daylight, A4 M0.5"
+install = false
+base = "standard"
+sharpening = 3
+saturation = 1
+hue = 1
+wb = "daylight"
+wb_ab = 4
+wb_gm = -0.5
+clarity = 0
+curve = [[0, 8], [56, 58], [128, 136], [196, 204], [255, 248]]
+
+[[recipe]]
+slot = 13
+name = "Ektar 100"
+notes = "Punchy, saturated, clean. WB daylight, A1"
+install = false
+base = "vivid"
+sharpening = 4
+saturation = 1
+hue = 0
+wb = "daylight"
+wb_ab = 1
+wb_gm = 0
+clarity = 0
+curve = [[0, 0], [52, 44], [128, 128], [196, 206], [255, 255]]
+
+[[recipe]]
+slot = 14
+name = "Superia 400"
+notes = "Cool greens, consumer film. WB auto, G1 B1"
+install = false
+base = "standard"
+sharpening = 3
+saturation = 0
+hue = -1
+wb = "auto"
+wb_ab = -1
+wb_gm = 1
+clarity = 0
+curve = [[0, 8], [64, 62], [128, 128], [192, 196], [255, 248]]
+
+[[recipe]]
+slot = 15
+name = "Agfa Vista 200"
+notes = "Warm reds, vivid, cheap-film charm. WB daylight, A2 M1"
+install = false
+base = "vivid"
+sharpening = 3
+saturation = 0
+hue = 1
+wb = "daylight"
+wb_ab = 2
+wb_gm = -1
+clarity = 0
+curve = [[0, 6], [48, 44], [128, 132], [208, 216], [255, 248]]
+
+[[recipe]]
+slot = 16
+name = "Ektachrome E100"
+notes = "Clean slide film, cool and crisp. WB daylight, B1"
+install = false
+base = "standard"
+sharpening = 4
+saturation = 1
+hue = 0
+wb = "daylight"
+wb_ab = -1
+wb_gm = 0
+clarity = 0
+curve = [[0, 0], [48, 40], [128, 126], [200, 208], [255, 255]]
+
+[[recipe]]
+slot = 17
+name = "Cinestill 800T"
+notes = "Night/tungsten film. WB 3200K, fine-tune B1 M1; best under street lights"
+install = false
+base = "neutral"
+sharpening = 2
+saturation = 0
+hue = -1
+wb = "kelvin"
+wb_kelvin = 3200
+wb_ab = -1
+wb_gm = -1
+clarity = 0
+curve = [[0, 12], [48, 44], [128, 128], [200, 210], [255, 250]]
+
+[[recipe]]
+slot = 18
+name = "Reala Ace"
+notes = "Fuji's newest sim: natural, slightly crisp. WB auto"
+install = false
+base = "standard"
+sharpening = 3
+saturation = 0
+hue = 0
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 0
+curve = [[0, 2], [56, 52], [128, 128], [200, 206], [255, 254]]
+
+[[recipe]]
+slot = 19
+name = "Bleach Bypass"
+notes = "Desaturated, hard, gritty cinema. WB auto; Clarity +3"
+install = false
+base = "neutral"
+sharpening = 5
+saturation = -3
+hue = 0
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 3
+curve = [[0, 0], [40, 20], [96, 84], [160, 176], [220, 236], [255, 255]]
+
+[[recipe]]
+slot = 20
+name = "Matte Fade"
+notes = "Lifted blacks, soft highlights, Instagram-film. WB auto, A1"
+install = false
+base = "neutral"
+sharpening = 2
+saturation = -1
+hue = 0
+wb = "auto"
+wb_ab = 1
+wb_gm = 0
+clarity = 0
+curve = [[0, 36], [48, 62], [128, 132], [208, 204], [255, 226]]
+
+[[recipe]]
+slot = 21
+name = "Flat Log Grade"
+notes = "Max dynamic range for grading later. Clarity -2; ADL off"
+install = false
+base = "neutral"
+sharpening = 1
+saturation = -1
+hue = 0
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = -2
+curve = [[0, 24], [32, 52], [96, 112], [160, 160], [224, 210], [255, 232]]
+
+[[recipe]]
+slot = 22
+name = "Cross Process"
+notes = "Slide-in-C41 madness. WB daylight, G2 A2"
+install = false
+base = "vivid"
+sharpening = 3
+saturation = 2
+hue = 2
+wb = "daylight"
+wb_ab = 2
+wb_gm = 2
+clarity = 0
+curve = [[0, 10], [64, 44], [128, 128], [192, 214], [255, 250]]
+
+[[recipe]]
+slot = 23
+name = "Tri-X 400"
+notes = "Classic street B&W, punchy. Clarity +2"
+install = false
+base = "monochrome"
+sharpening = 6
+filter = "yellow"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 2
+curve = [[0, 0], [40, 22], [96, 86], [160, 176], [220, 238], [255, 255]]
+
+[[recipe]]
+slot = 24
+name = "HP5 Soft"
+notes = "Gentle grey B&W, open shadows. Clarity +1"
+install = false
+base = "monochrome"
+sharpening = 4
+filter = "off"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 1
+curve = [[0, 8], [64, 68], [128, 130], [192, 190], [255, 248]]
+
+[[recipe]]
+slot = 25
+name = "Red Filter Sky"
+notes = "Black skies, bright skin. Clarity +2"
+install = false
+base = "monochrome"
+sharpening = 5
+filter = "red"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 2
+curve = [[0, 0], [48, 32], [128, 128], [208, 222], [255, 255]]
+
+[[recipe]]
+slot = 26
+name = "Platinum Print"
+notes = "Warm, low contrast fine-art print. Clarity 0"
+install = false
+base = "monochrome"
+sharpening = 3
+filter = "orange"
+toning = "sepia"
+toning_strength = 2
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 0
+curve = [[0, 18], [64, 70], [128, 132], [192, 192], [255, 240]]
+
+[[recipe]]
+slot = 27
+name = "Cyanotype"
+notes = "Blue print look"
+install = false
+base = "monochrome"
+sharpening = 3
+filter = "off"
+toning = "cyanotype"
+toning_strength = 5
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 0
+curve = [[0, 10], [64, 60], [128, 130], [192, 200], [255, 250]]
+
+[[recipe]]
+slot = 28
+name = "Pro 400H"
+notes = "Airy pastels, cyan-leaning greens, soft highlights"
+install = false
+base = "neutral"
+sharpening = 2
+saturation = -1
+hue = -1
+wb = "auto"
+wb_ab = -1
+wb_gm = 0.5
+clarity = -1
+curve = [[0, 8], [64, 72], [128, 138], [192, 200], [255, 250]]
+
+[[recipe]]
+slot = 29
+name = "Superia 800"
+notes = "Punchy consumer film, green cast, some bite"
+install = false
+base = "standard"
+sharpening = 3
+saturation = 0
+hue = -1
+wb = "auto"
+wb_ab = 0
+wb_gm = 1
+clarity = 1
+curve = [[0, 10], [48, 40], [128, 130], [200, 206], [255, 246]]
+
+[[recipe]]
+slot = 30
+name = "Fujicolor C200"
+notes = "Cheap-and-cheerful Fuji, cool and clean"
+install = false
+base = "standard"
+sharpening = 3
+saturation = 0
+hue = -1
+wb = "daylight"
+wb_ab = -1
+wb_gm = 0.5
+clarity = 0
+curve = [[0, 6], [64, 62], [128, 132], [192, 196], [255, 250]]
+
+[[recipe]]
+slot = 31
+name = "Velvia 50"
+notes = "Maximum slide-film punch for landscapes"
+install = true
+base = "vivid"
+sharpening = 4
+saturation = 3
+hue = 0
+wb = "daylight"
+wb_ab = 1
+wb_gm = -0.5
+clarity = 2
+curve = [[0, 0], [48, 30], [128, 126], [200, 216], [255, 255]]
+
+[[recipe]]
+slot = 32
+name = "Natura 1600"
+notes = "Warm, low-contrast night film; great indoors"
+install = false
+base = "neutral"
+sharpening = 2
+saturation = -1
+hue = 0
+wb = "auto"
+wb_ab = 2
+wb_gm = 0
+clarity = -1
+curve = [[0, 14], [64, 70], [128, 134], [192, 194], [255, 244]]
+
+[[recipe]]
+slot = 33
+name = "Ultramax 400"
+notes = "Warm, punchy everyday Kodak"
+install = false
+base = "standard"
+sharpening = 3
+saturation = 1
+hue = 1
+wb = "auto"
+wb_ab = 2
+wb_gm = -0.5
+clarity = 0
+curve = [[0, 6], [56, 52], [128, 134], [200, 212], [255, 252]]
+
+[[recipe]]
+slot = 34
+name = "Kodak ColorPlus 200"
+notes = "Budget Kodak: warm, faded, nostalgic"
+install = false
+base = "standard"
+sharpening = 3
+saturation = 0
+hue = 1
+wb = "daylight"
+wb_ab = 3
+wb_gm = 0
+clarity = 0
+curve = [[0, 18], [64, 66], [128, 136], [192, 198], [255, 240]]
+
+[[recipe]]
+slot = 35
+name = "Portra 160"
+notes = "Clean, fine, gentle skin tones"
+install = false
+base = "neutral"
+sharpening = 2
+saturation = -1
+hue = 0
+wb = "auto"
+wb_ab = 1
+wb_gm = 0
+clarity = -1
+curve = [[0, 6], [64, 68], [128, 132], [192, 196], [255, 250]]
+
+[[recipe]]
+slot = 36
+name = "Portra 800"
+notes = "Warmer, richer Portra for low light"
+install = false
+base = "standard"
+sharpening = 3
+saturation = 0
+hue = 1
+wb = "auto"
+wb_ab = 2
+wb_gm = -1
+clarity = 0
+curve = [[0, 12], [56, 58], [128, 136], [200, 206], [255, 246]]
+
+[[recipe]]
+slot = 37
+name = "Ektachrome 100SW"
+notes = "Saturated warm slide film"
+install = false
+base = "vivid"
+sharpening = 4
+saturation = 1
+hue = 1
+wb = "daylight"
+wb_ab = 3
+wb_gm = -0.5
+clarity = 1
+curve = [[0, 0], [48, 38], [128, 128], [200, 212], [255, 255]]
+
+[[recipe]]
+slot = 38
+name = "Kodachrome II"
+notes = "Vintage 1960s slide look, deep shadows"
+install = false
+base = "standard"
+sharpening = 4
+saturation = 0
+hue = -1
+wb = "daylight"
+wb_ab = 2
+wb_gm = -1
+clarity = 1
+curve = [[0, 8], [48, 36], [128, 124], [200, 210], [255, 246]]
+
+[[recipe]]
+slot = 39
+name = "Vision3 250D"
+notes = "Motion-picture daylight stock, soft and cinematic"
+install = false
+base = "neutral"
+sharpening = 2
+saturation = -1
+hue = 0
+wb = "daylight"
+wb_ab = 1
+wb_gm = 0.5
+clarity = -1
+curve = [[0, 16], [48, 50], [128, 128], [208, 206], [255, 236]]
+
+[[recipe]]
+slot = 40
+name = "Vision3 500T"
+notes = "Tungsten cinema stock; best at night"
+install = false
+base = "neutral"
+sharpening = 2
+saturation = -1
+hue = -1
+wb = "kelvin"
+wb_kelvin = 3200
+wb_ab = -0.5
+wb_gm = 0
+clarity = 0
+curve = [[0, 14], [48, 44], [128, 126], [208, 212], [255, 244]]
+
+[[recipe]]
+slot = 41
+name = "Agfa Optima 200"
+notes = "Crisp blues, neutral skin, a bit of contrast"
+install = false
+base = "vivid"
+sharpening = 3
+saturation = 0
+hue = 1
+wb = "daylight"
+wb_ab = -1
+wb_gm = 0.5
+clarity = 0
+curve = [[0, 4], [56, 50], [128, 130], [200, 210], [255, 252]]
+
+[[recipe]]
+slot = 42
+name = "Lomo 800"
+notes = "Saturated, contrasty, a little wild"
+install = false
+base = "vivid"
+sharpening = 3
+saturation = 2
+hue = 1
+wb = "auto"
+wb_ab = 2
+wb_gm = -1
+clarity = 2
+curve = [[0, 8], [48, 30], [128, 128], [192, 210], [255, 250]]
+
+[[recipe]]
+slot = 43
+name = "Polaroid 600"
+notes = "Faded, warm instant-film look"
+install = false
+base = "neutral"
+sharpening = 2
+saturation = -2
+hue = 1
+wb = "auto"
+wb_ab = 3
+wb_gm = 0.5
+clarity = -2
+curve = [[0, 40], [64, 78], [128, 136], [192, 190], [255, 228]]
+
+[[recipe]]
+slot = 44
+name = "Instax Mini"
+notes = "Bright, soft, high-key instant"
+install = false
+base = "standard"
+sharpening = 2
+saturation = 0
+hue = 0
+wb = "auto"
+wb_ab = -1
+wb_gm = -0.5
+clarity = -1
+curve = [[0, 22], [64, 88], [128, 156], [192, 212], [255, 246]]
+
+[[recipe]]
+slot = 45
+name = "Pacific Blues"
+notes = "Cool Classic-Chrome style for coast and city"
+install = false
+base = "neutral"
+sharpening = 3
+saturation = -1
+hue = -1
+wb = "daylight"
+wb_ab = -2
+wb_gm = 0
+clarity = 1
+curve = [[0, 6], [48, 38], [128, 128], [200, 208], [255, 248]]
+
+[[recipe]]
+slot = 46
+name = "Vintage Americana"
+notes = "Warm, faded 1970s road-trip feel"
+install = false
+base = "standard"
+sharpening = 3
+saturation = -1
+hue = 1
+wb = "daylight"
+wb_ab = 4
+wb_gm = -1
+clarity = 0
+curve = [[0, 24], [64, 70], [128, 134], [192, 196], [255, 238]]
+
+[[recipe]]
+slot = 47
+name = "Bright Summer"
+notes = "Light and airy; expose for the shadows"
+install = true
+base = "standard"
+sharpening = 3
+saturation = 1
+hue = 0
+wb = "auto"
+wb_ab = 1
+wb_gm = 0
+clarity = 0
+curve = [[0, 4], [64, 76], [128, 150], [192, 208], [255, 252]]
+
+[[recipe]]
+slot = 48
+name = "Golden Hour"
+notes = "Extra warmth for late sun and portraits"
+install = false
+base = "portrait"
+sharpening = 3
+saturation = 1
+hue = 1
+wb = "cloudy"
+wb_ab = 2
+wb_gm = 0
+clarity = 0
+curve = [[0, 4], [56, 56], [128, 136], [200, 208], [255, 250]]
+
+[[recipe]]
+slot = 49
+name = "Moody Teal"
+notes = "Dark, cool, crushed shadows for overcast days"
+install = false
+base = "neutral"
+sharpening = 3
+saturation = -1
+hue = -2
+wb = "auto"
+wb_ab = -2
+wb_gm = 1
+clarity = 2
+curve = [[0, 6], [48, 30], [96, 84], [160, 164], [224, 226], [255, 244]]
+
+[[recipe]]
+slot = 50
+name = "Street Grit B&W"
+notes = "Hard, high-contrast street B&W"
+install = false
+base = "monochrome"
+sharpening = 7
+filter = "orange"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 3
+curve = [[0, 0], [40, 14], [96, 80], [160, 184], [220, 246], [255, 255]]
+
+[[recipe]]
+slot = 51
+name = "Ilford Pan F"
+notes = "Smooth, fine-grained, rich mid-tones"
+install = false
+base = "monochrome"
+sharpening = 5
+filter = "yellow"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 1
+curve = [[0, 0], [48, 40], [128, 130], [208, 220], [255, 255]]
+
+[[recipe]]
+slot = 52
+name = "Delta 3200"
+notes = "Gritty low-light B&W, lifted blacks"
+install = false
+base = "monochrome"
+sharpening = 6
+filter = "off"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 2
+curve = [[0, 12], [56, 48], [128, 132], [200, 214], [255, 250]]
+
+[[recipe]]
+slot = 53
+name = "T-Max 100"
+notes = "Clean, modern, neutral B&W"
+install = false
+base = "monochrome"
+sharpening = 5
+filter = "off"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 1
+curve = [[0, 0], [64, 58], [128, 130], [192, 200], [255, 255]]
+
+[[recipe]]
+slot = 54
+name = "Selenium Tone"
+notes = "Cool purple-black darkroom print"
+install = false
+base = "monochrome"
+sharpening = 4
+filter = "yellow"
+toning = "purple-blue"
+toning_strength = 2
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 1
+curve = [[0, 0], [48, 36], [128, 128], [208, 216], [255, 252]]
+
+[[recipe]]
+slot = 72
+name = "FXW Dramatic Mono"
+notes = "Adapted from Fuji X Weekly's Nikon Z recipe 'Dramatic Monochromatic' (Monochrome, red filter, Con +1, Bri +1)"
+install = true
+base = "monochrome"
+sharpening = 3
+filter = "red"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = 1
+curve = [[0, 0], [64, 62], [128, 140], [192, 210], [255, 255]]
+
+[[recipe]]
+slot = 73
+name = "FXW B&W Push"
+notes = "Adapted from Fuji X Weekly's Nikon Z recipe 'B&W Push-Process' (Graphite → Monochrome, yellow filter, Con +2)"
+install = false
+base = "monochrome"
+sharpening = 2
+filter = "yellow"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = -2
+curve = [[0, 0], [48, 30], [128, 128], [208, 226], [255, 255]]
+
+[[recipe]]
+slot = 74
+name = "FXW B&W Film"
+notes = "Adapted from Fuji X Weekly's Nikon Z recipe 'B&W Film' (Carbon → Monochrome, orange filter, Con +1)"
+install = false
+base = "monochrome"
+sharpening = 1
+filter = "orange"
+toning = "bw"
+wb = "auto"
+wb_ab = 0
+wb_gm = 0
+clarity = -2
+curve = [[0, 0], [64, 56], [128, 130], [192, 202], [255, 255]]

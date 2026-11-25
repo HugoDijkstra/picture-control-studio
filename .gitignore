@@ -1,0 +1,11 @@
+# personal recipes (e.g. imported third-party Picture Controls) — never committed
+recipes.local.toml
+*.toml.tmp
+# generated output
+NIKON/
+build/
+dist/
+*.pdf
+__pycache__/
+*.pyc
+venv/
