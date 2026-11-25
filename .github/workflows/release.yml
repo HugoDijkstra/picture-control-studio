@@ -90,7 +90,7 @@ jobs:
           if-no-files-found: warn
 
   macos:
-    runs-on: macos-14
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install GTK 4, libadwaita, LibRaw
